@@ -1,0 +1,21 @@
+.register-container {
+  height: 100vh;
+  width: 100%;
+  background: url("../img/register-background.jpg") no-repeat center center;
+  background-size: cover;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#form-register > .input-wrapper:hover {
+  background: none;
+}
+
+.form-container #form-register > * {
+  margin-bottom: 15px;
+}
+
+#form-register .form-footer {
+  display: flex;
+  justify-content: space-between;
+}
