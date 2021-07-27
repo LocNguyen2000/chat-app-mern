@@ -1,0 +1,21 @@
+.conversations-container{
+  width: 25%;
+  height: 100%;
+  padding-left: 15px;
+  box-shadow: 4px 0 5px -5px #333;
+  /* word-wrap: break-word; */
+}
+.conversations-container *{
+  margin-bottom: 10px;
+}
+
+.conversations-container .header{
+  font-weight: bold;
+  padding: 10px 10px;
+  color: #fbaa33;
+}
+
+.conversations-container .conversations-list ul {
+  list-style: none;
+}
+
