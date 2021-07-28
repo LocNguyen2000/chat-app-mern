@@ -16,3 +16,15 @@
     margin-bottom: 15px;
 }
 
+.message-error{
+    font-size: 13px;
+    color: red;
+    padding-top :3px
+}
+
+.message-success{
+    font-size: 13px;
+    color: green;
+    padding-top: 3px;
+}
+
