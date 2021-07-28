@@ -12,10 +12,16 @@
 
 .main-nav-bar .nav-cards-container{
   margin-right: 15px;
+  margin-left: 12px;
 }
 .main-nav-bar .nav-cards-container>*{
   margin-right: 15px;
 }
+
+.main-nav-bar #add-new-container{
+  display: none;
+}
+
 .main-nav-bar #community:hover{
   cursor: pointer;
 }
@@ -23,6 +29,7 @@
 .main-nav-bar #sign-out-btn{
   border: none;
 }
+
 .main-nav-bar #sign-out-btn:hover{
   min-width: 140px;
   transition: 0.3s ease;

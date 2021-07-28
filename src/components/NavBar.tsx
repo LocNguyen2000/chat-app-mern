@@ -4,7 +4,12 @@ import "../css/NavBar.css";
 export default function NavBar() {
   return (
     <nav className="main-nav-bar">
-      <div id="nav-cards-container" className="nav-cards-container">
+      <div id="add-new-container" className="nav-cards-container">
+        <div id="add-new">
+          <i className="fa fa-bars" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div id="community-container" className="nav-cards-container">
         <div id="community">
           <i className="fa fa-users" aria-hidden="true"></i>
           Community
