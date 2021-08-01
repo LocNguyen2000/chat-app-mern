@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/LoginContainer.css";
+import axios from "axios";
 
 export default function LoginContainer() {
   const [userMail, setUserMail] = useState<string | undefined>();
@@ -9,20 +10,37 @@ export default function LoginContainer() {
 
   const updateEmailState = (e: any) => {
     e.preventDefault();
-    setUserMail(e.target.email);
+    console.log(e.target.value);
+
+    setUserMail(e.target.value);
   };
   const updatePassword = (e: any) => {
     e.preventDefault();
-    let p = e.target.password
-    setPassword(p);
+    console.log(e.target.value);
+    
+    setPassword(e.target.value);
   };
   const submitHandler = (e: any) => {
     e.preventDefault();
+    console.log(userMail, " ", password);
+    
     if (userMail && password) {
       alert(userMail + " " + password);
       setSuccess('Login successfully')
+      
+      // axios.post('http://localhost:8000/user/login', {
+      //   email: userMail,
+      //   password: password,
+      // }).then((token) => {
+      //   console.log(token);
+      //   setSuccess('Login successfully')
+      // }).catch(err => {
+      //   console.log(err);
+      //   setError(err.message)
+      // })
     }
     else setError('Login failed')
+  
   };
 
   return (
@@ -56,14 +74,14 @@ export default function LoginContainer() {
             />
           </div>
 
-          {/* <div className="message message-error" >{error}</div> */}
+          <div className="message message-error" >{error}</div>
           <div className="message message-success" >{success}</div>
 
           <div className="form-footer">
             <a id="form-link" href="/register">
               Not yet have an account? Register
             </a>
-            <button id="log-in-btn"> Login </button>
+            <button type='submit' id="log-in-btn"> Login </button>
           </div>
         </form>
       </div>

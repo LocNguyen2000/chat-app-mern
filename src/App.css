@@ -70,11 +70,3 @@ button:focus {
   margin-bottom: 50px;
 }
 
-.form-container .name-wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-.form-container .name-wrapper .input-wrapper {
-  width: 48%;
-}
