@@ -8,17 +8,17 @@ import LoginContainer from "./components/LoginContainer";
 import "./App.css";
 
 function App() {
+
   return (
     <div className="App">
       <Switch>
-        <Route exact path = '/'>Hello World</Route>
         <Route exact path = '/login'>
           <LoginContainer/>
         </Route>
         <Route exact path = '/register'>
           <RegisterContainer/>
         </Route>
-        <Route path = '/home'>
+        <Route exact path = '/'>
           <NavBar></NavBar>
           <div className="body">
             <ConversationsContainer />

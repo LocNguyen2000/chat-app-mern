@@ -1,47 +1,65 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../css/LoginContainer.css";
-import axios from "axios";
+import axios, { AxiosResponse, AxiosError } from "axios";
+import { Redirect } from "react-router-dom";
+import { localApi } from "../config";
 
 export default function LoginContainer() {
   const [userMail, setUserMail] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
+  const [isLogin, setIsLogin] = useState<Boolean>(false);
 
   const updateEmailState = (e: any) => {
     e.preventDefault();
-    console.log(e.target.value);
-
     setUserMail(e.target.value);
   };
   const updatePassword = (e: any) => {
     e.preventDefault();
-    console.log(e.target.value);
-    
     setPassword(e.target.value);
   };
+
   const submitHandler = (e: any) => {
     e.preventDefault();
-    console.log(userMail, " ", password);
-    
+
     if (userMail && password) {
-      alert(userMail + " " + password);
-      setSuccess('Login successfully')
-      
-      // axios.post('http://localhost:8000/user/login', {
-      //   email: userMail,
-      //   password: password,
-      // }).then((token) => {
-      //   console.log(token);
-      //   setSuccess('Login successfully')
-      // }).catch(err => {
-      //   console.log(err);
-      //   setError(err.message)
-      // })
+      console.log(userMail + " " + password);
+
+      axios
+        .post( localApi + "/user/login", {
+          email: userMail,
+          password: password,
+        })
+        .then((response: AxiosResponse) => {
+          console.log(response);
+          alert("switch to chat page");
+          setSuccess("Login successfully");
+          setError("");
+          setIsLogin(true);
+        })
+        .catch((err: AxiosError) => {
+          console.log(err);
+          if (
+            err.response!.status === 400 ||
+            err.response!.status === 409 ||
+            err.response!.status === 500
+          ) {
+            setError(err.response?.data);
+            setSuccess("");
+          } else {
+            setError("Unrecognized Error");
+            setSuccess("");
+          }
+        });
+    } else {
+      setError("Login failed");
+      setSuccess("");
     }
-    else setError('Login failed')
-  
   };
+  if (isLogin) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="log-in-container">
@@ -62,6 +80,7 @@ export default function LoginContainer() {
               name="email"
               placeholder=" Email"
               onChange={updateEmailState}
+              required
             />
           </div>
 
@@ -71,17 +90,21 @@ export default function LoginContainer() {
               name="password"
               placeholder=" Password"
               onChange={updatePassword}
+              required
             />
           </div>
 
-          <div className="message message-error" >{error}</div>
-          <div className="message message-success" >{success}</div>
+          <div className="message message-error">{error}</div>
+          <div className="message message-success">{success}</div>
 
           <div className="form-footer">
             <a id="form-link" href="/register">
               Not yet have an account? Register
             </a>
-            <button type='submit' id="log-in-btn"> Login </button>
+            <button type="submit" id="log-in-btn">
+              {" "}
+              Login{" "}
+            </button>
           </div>
         </form>
       </div>
