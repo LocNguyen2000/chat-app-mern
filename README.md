@@ -1,5 +1,7 @@
-# Chat Application with MERN
+# Chat Application with PERN
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+`Postgres` - `Express` - `React` - `Node`
 
 ## Available Scripts
 
