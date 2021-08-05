@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import "../css/LoginContainer.css";
+import "../css/LoginPage.css";
 import axios, { AxiosResponse, AxiosError } from "axios";
 import { Redirect } from "react-router-dom";
-import { localApi } from "../config";
+import { localApi } from "../utils/variables";
+import * as TokenTool from "../utils/token";
 
-export default function LoginContainer() {
-  const [userMail, setUserMail] = useState<string | undefined>();
+export default function LoginPage() {
+  const [email, setEmail] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
@@ -13,7 +14,7 @@ export default function LoginContainer() {
 
   const updateEmailState = (e: any) => {
     e.preventDefault();
-    setUserMail(e.target.value);
+    setEmail(e.target.value);
   };
   const updatePassword = (e: any) => {
     e.preventDefault();
@@ -23,32 +24,29 @@ export default function LoginContainer() {
   const submitHandler = (e: any) => {
     e.preventDefault();
 
-    if (userMail && password) {
-      console.log(userMail + " " + password);
-
+    if (email && password) {
       axios
-        .post( localApi + "/user/login", {
-          email: userMail,
+        .post(localApi + "/user/login", {
+          email: email,
           password: password,
         })
         .then((response: AxiosResponse) => {
-          console.log(response);
-          alert("switch to chat page");
+          // set success state
           setSuccess("Login successfully");
           setError("");
+          alert("switch to chat page");
+
+          // set token to local storage
+          TokenTool.setToken(response.data.token)
+
           setIsLogin(true);
         })
         .catch((err: AxiosError) => {
-          console.log(err);
-          if (
-            err.response!.status === 400 ||
-            err.response!.status === 409 ||
-            err.response!.status === 500
-          ) {
+          if (err) {
             setError(err.response?.data);
             setSuccess("");
           } else {
-            setError("Unrecognized Error");
+            setError("Server not found");
             setSuccess("");
           }
         });
@@ -58,7 +56,7 @@ export default function LoginContainer() {
     }
   };
   if (isLogin) {
-    return <Redirect to="/" />;
+    return <Redirect to="/home" />;
   }
 
   return (
@@ -102,8 +100,7 @@ export default function LoginContainer() {
               Not yet have an account? Register
             </a>
             <button type="submit" id="log-in-btn">
-              {" "}
-              Login{" "}
+              Login
             </button>
           </div>
         </form>

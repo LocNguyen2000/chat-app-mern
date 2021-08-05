@@ -1,33 +1,18 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import NavBar from "./components/NavBar";
-import ConversationsContainer from "./components/ConversationsContainer";
-import ChatContainer from "./components/ChatContainer";
-import RegisterContainer from "./components/RegisterContainer";
-import LoginContainer from "./components/LoginContainer";
+import ChatPage from "./screens/ChatPage";
+import RegisterPage from "./screens/RegisterPage";
+import LoginPage from "./screens/LoginPage";
 import "./App.css";
 
-function App() {
-
+export default function App() {
   return (
     <div className="App">
       <Switch>
-        <Route exact path = '/login'>
-          <LoginContainer/>
-        </Route>
-        <Route exact path = '/register'>
-          <RegisterContainer/>
-        </Route>
-        <Route exact path = '/'>
-          <NavBar></NavBar>
-          <div className="body">
-            <ConversationsContainer />
-            <ChatContainer />
-          </div>
-        </Route>
+        <Route exact path="/" component={ChatPage} />
+        <Route exact path="/register" component={RegisterPage} />
+        <Route exact path="/login" component={LoginPage} />
       </Switch>
     </div>
   );
 }
-
-export default App;

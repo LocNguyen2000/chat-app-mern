@@ -1,4 +1,4 @@
-export default interface messsageInterface {
+export default interface messageInterface {
   content: string;
   user: string;
   date: string;
