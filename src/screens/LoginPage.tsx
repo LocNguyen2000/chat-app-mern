@@ -6,8 +6,8 @@ import { localApi } from "../utils/variables";
 import * as TokenTool from "../utils/token";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState<string | undefined>();
-  const [password, setPassword] = useState<string | undefined>();
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
   const [isLogin, setIsLogin] = useState<Boolean>(false);
@@ -24,36 +24,31 @@ export default function LoginPage() {
   const submitHandler = (e: any) => {
     e.preventDefault();
 
-    if (email && password) {
-      axios
-        .post(localApi + "/user/login", {
-          email: email,
-          password: password,
-        })
-        .then((response: AxiosResponse) => {
-          // set success state
-          setSuccess("Login successfully");
-          setError("");
-          alert("switch to chat page");
+    axios
+      .post(localApi + "/user/login", {
+        email: email,
+        password: password,
+      })
+      .then((response: AxiosResponse) => {
+        // set success state
+        setSuccess("Login successfully");
+        setError("");
+        alert("switch to chat page");
 
-          // set token to local storage
-          TokenTool.setToken(response.data.token)
+        // set token to local storage
+        TokenTool.setToken(response.data);
 
-          setIsLogin(true);
-        })
-        .catch((err: AxiosError) => {
-          if (err) {
-            setError(err.response?.data);
-            setSuccess("");
-          } else {
-            setError("Server not found");
-            setSuccess("");
-          }
-        });
-    } else {
-      setError("Login failed");
-      setSuccess("");
-    }
+        setIsLogin(true);
+      })
+      .catch((err: AxiosError) => {
+        if (err.response!) {
+          setError(err.response?.data);
+          setSuccess("");
+        } else {
+          setError("Server not found");
+          setSuccess("");
+        }
+      });
   };
   if (isLogin) {
     return <Redirect to="/home" />;

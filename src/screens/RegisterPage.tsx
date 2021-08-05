@@ -71,7 +71,7 @@ export default function RegisterPage() {
         })
         .catch((err: AxiosError) => {
           if (err.response!) {            
-            setError(err.response?.data.message);
+            setError(err.response?.data);
             setSuccess("");
           } else {
             setError("Server not found");
