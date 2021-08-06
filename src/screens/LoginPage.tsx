@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "../css/LoginPage.css";
 import axios, { AxiosResponse, AxiosError } from "axios";
 import { Redirect } from "react-router-dom";
 import { localApi } from "../utils/variables";
-import * as TokenTool from "../utils/token";
+import * as utils from "../utils/storage";
+import { AuthUserContext } from "../context/AuthUserContext";
 
 export default function LoginPage() {
+  const context = useContext(AuthUserContext)
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [error, setError] = useState<string>();
@@ -25,7 +27,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     axios
-      .post(localApi + "/user/login", {
+      .post( localApi + "/user/login", {
         email: email,
         password: password,
       })
@@ -33,10 +35,17 @@ export default function LoginPage() {
         // set success state
         setSuccess("Login successfully");
         setError("");
-        alert("switch to chat page");
+        
+        const authUserData = {
+          id: response.data.id,
+          name: response.data.name,
+          email: response.data.email,
+          token: response.data.token
+        }
 
-        // set token to local storage
-        TokenTool.setToken(response.data);
+        // save token to local storage & save userData 
+        utils.setAuthUser( 'user' ,response.data);
+        context.authUser = authUserData
 
         setIsLogin(true);
       })
@@ -51,7 +60,7 @@ export default function LoginPage() {
       });
   };
   if (isLogin) {
-    return <Redirect to="/home" />;
+    return <Redirect to="/" />;
   }
 
   return (

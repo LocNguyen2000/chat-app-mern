@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { AuthUserContext } from "../context/AuthUserContext";
 import "../css/NavBar.css";
+import { deleteAuthUser } from "../utils/storage";
+
 
 export default function NavBar() {
+  const context = useContext(AuthUserContext)
+  const [ username ] = useState(context.authUser.name)
+
+  const signOutEvent = (e: any) => {
+    e.preventDefault()
+    deleteAuthUser()
+    // eslint-disable-next-line no-restricted-globals
+    window.location.reload()
+  }
+
   return (
     <nav className="main-nav-bar">
       <div id="add-new-container" className="nav-cards-container">
@@ -18,11 +31,9 @@ export default function NavBar() {
       <div id="user-profile-container" className="nav-cards-container">
         <span>
           <i className="fa fa-user-circle" aria-hidden="true"></i>
-          <span id="user-email" className="user-email">
-            Not Sign In?
-          </span>
+          <span id="user-email" className="user-email"> { username ? username : '' } </span>
         </span>
-        <button id="sign-out-btn">
+        <button id="sign-out-btn" onClick = {signOutEvent}>
           <i className="fa fa-sign-out" aria-hidden="true"></i>
           Sign out
         </button>

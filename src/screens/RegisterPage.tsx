@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../css/RegisterPage.css";
 import axios, { AxiosResponse, AxiosError } from "axios";
-import * as config from "../utils/variables";
+import { localApi } from "../utils/variables";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState<string>("");
@@ -60,7 +60,7 @@ export default function RegisterPage() {
 
     if (isValid) {
       axios
-        .post(config.localApi + "/user/register", {
+        .post( localApi + "/user/register", {
           name: username,
           email: email,
           password: password,
