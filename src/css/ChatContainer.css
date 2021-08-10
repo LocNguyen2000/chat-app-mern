@@ -1,6 +1,13 @@
 .current-conversation{
-    width: 70%;
+    width: 100%;
     height: 100%;
+    background: url('../img/background-black.png');
+}
+.current-conversation .chat-header{
+    padding: 5px 10px;
+}
+.current-conversation .chat-header *{
+    color: white;
 }
 
 .chat-messages{
@@ -20,7 +27,7 @@
     min-height: 40px;
     padding: 10px; 
     line-height: 20px;
-    font-size: 16px;
+    font-size: 18px;
     background:#3E4042;
     color: #ffffff;
     border-radius: 5px;

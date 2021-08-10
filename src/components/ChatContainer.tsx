@@ -1,30 +1,83 @@
-import React, { useState } from "react";
-import messsageInterface from "../interfaces/MessageInterface";
+import { useState, useEffect, useContext } from "react";
+import { ConversationInterface, messageInterface } from "../interfaces/ConversationInterface";
+import { AuthUserContext, CurrentConversationContext } from "../context/AuthUserContext";
+import axios, { AxiosResponse } from "axios";
 import "../css/ChatContainer.css";
+import { localApi } from "../utils/variables";
 
 export default function ChatContainer() {
-  const [messages, setMessages] = useState<messsageInterface[]>([]);
-  const [message, setMessage] = useState<messsageInterface>();
+  const authUserContext = useContext(AuthUserContext)
+  const { currentChat, setCurrentChat } = useContext(CurrentConversationContext)
+
+  const [messages, setMessages] = useState<messageInterface[]>([]);
+  const [message, setMessage] = useState<messageInterface>();
+
+
+  useEffect(() => {
+    const getChatMessages = (cnv: ConversationInterface) => {
+      if (!cnv.messages) 
+        return [] 
+      return cnv.messages as messageInterface[]
+    }
+    
+    setCurrentChat(currentChat)
+    setMessages(getChatMessages(currentChat))
+  }, [currentChat, setCurrentChat])
+
+  const getFriendEmail = (users: string[], currentUser: string) => {
+    if (users && currentUser){
+      let friendsIndex = users.length - users.indexOf(currentUser) - 1
+      return users[friendsIndex];
+    }
+    return ;
+  } 
+  const getCurrentTitle = (currentChat: ConversationInterface) => {
+    if (currentChat){
+      return currentChat.title
+    }
+    return ;
+  }
 
   const updateMsgState = (e: any) => {
     e.preventDefault()
     let updatedMsg = {
       content: e.target.value,
-      user: 'your',
-      date: new Date().toLocaleDateString(),
-    }
+      user: authUserContext.authUser.email,
+      date: new Date().toLocaleString(),
+    }    
     setMessage(updatedMsg)
   }
 
-  const submitHandler = (e: any) => {
-    e.preventDefault()
-    if (message) setMessages([...messages, message ])
-    e.target.message.value = ""
+  const submitHandler = async (e: any) => {
+    try {
+      e.preventDefault()
+      if (message){
+        const res: AxiosResponse = await axios.post(localApi + "/chat/send", { 
+          id: currentChat.id,
+          content: message.content,
+          user: message.user,
+          date: message.date
+        })
+        const data = await res.data 
+        setMessages(data.messages)
+        setMessage({} as messageInterface)
+        e.target.message.value = ""
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
     <div className="current-conversation">
-      <div id="friends-mail"> </div>
+      <div className="chat-header">
+        <div className="friend-mail" id="friend-mail"> 
+          {getFriendEmail( currentChat.users, authUserContext.authUser.email)}
+        </div>
+        <div className="chat-title"> {getCurrentTitle(currentChat)}</div>
+      </div>
+      
+
       <form id="chat-form" className="chat-form" onSubmit = {submitHandler}>
         <div className="input-wrapper">
           <input type="text" name="message" placeholder="Enter your message" onChange = {updateMsgState}/>
@@ -34,10 +87,15 @@ export default function ChatContainer() {
           Submit
         </button>
       </form>
+      
       <div id="chat-messages" className="chat-messages">
-        {messages.map((msg) => {
+        {messages.map((msg: messageInterface, index: number) => {
+          let className = 'chat-message'
+          if (msg.user === authUserContext.authUser.email){
+            className += ' your'
+          }
           return (
-            <div className = {"chat-message " + msg.user}>
+            <div className = {className} key={index}>
               <span> {msg.content} </span>
             </div>
           )

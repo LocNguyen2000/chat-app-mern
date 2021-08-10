@@ -7,7 +7,7 @@ import * as utils from "../utils/storage";
 import { AuthUserContext } from "../context/AuthUserContext";
 
 export default function LoginPage() {
-  const context = useContext(AuthUserContext)
+  const context = useContext(AuthUserContext);
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [error, setError] = useState<string>();
@@ -27,7 +27,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     axios
-      .post( localApi + "/user/login", {
+      .post(localApi + "/user/login", {
         email: email,
         password: password,
       })
@@ -35,19 +35,21 @@ export default function LoginPage() {
         // set success state
         setSuccess("Login successfully");
         setError("");
-        
+
         const authUserData = {
           id: response.data.id,
           name: response.data.name,
           email: response.data.email,
-          token: response.data.token
-        }
+          token: response.data.token,
+        };
 
-        // save token to local storage & save userData 
-        utils.setAuthUser( 'user' ,response.data);
-        context.authUser = authUserData
+        // save token to local storage & save userData
+        utils.setAuthUser("user", response.data);
+        context.authUser = authUserData;
 
-        setIsLogin(true);
+        setTimeout(() => {
+          setIsLogin(true);
+        }, 1000);
       })
       .catch((err: AxiosError) => {
         if (err.response!) {

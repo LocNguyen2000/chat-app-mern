@@ -13,6 +13,7 @@ export default function App() {
   const data = {
     authUser: utils.getAuthUser('user') as AuthUserInterface
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [ contextValue, setContextValue ] = useState( data )
   return (
     <div className="App">
