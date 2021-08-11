@@ -1,18 +1,20 @@
 .conversations-container {
   width: 25%;
+  min-width: 120px;
   height: 100%;
-  padding-left: 15px;
+  padding-left: 12px;
   box-shadow: 4px 0 5px -5px #333;
   background: #1f1f1f;
   word-wrap: break-word;
 }
 .conversations-container * {
   margin-bottom: 10px;
+  margin-right: 5px;
 }
 
 .conversations-container .header {
   font-weight: bold;
-  padding: 10px 10px;
+  padding: 10px 5px;
   color: #fbaa33;
 }
 

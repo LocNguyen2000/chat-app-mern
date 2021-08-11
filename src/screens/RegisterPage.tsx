@@ -53,31 +53,35 @@ export default function RegisterPage() {
     setConfirmPass(e.target.value)
   }
 
-  const submitHandler = (e: any) => {
+  const submitHandler = async (e: any) => {
     e.preventDefault()
 
     const isValid = registerFormValidation()
 
     if (isValid) {
-      axios
-        .post(localApi + '/user/register', {
+      try {
+        const response: AxiosResponse = await axios.post(localApi + '/user/register', {
           name: username,
           email: email,
           password: password,
         })
-        .then((res: AxiosResponse) => {
-          setSuccess(res.data)
-          setError('')
-        })
-        .catch((err: AxiosError) => {
-          if (err.response!) {
-            setError(err.response?.data)
-            setSuccess('')
-          } else {
-            setError('Server not found')
-            setSuccess('')
-          }
-        })
+        const data = await response.data
+        setSuccess(data)
+        setError('')
+        e.target.username.value=''
+        e.target.email.value=''
+        e.target.password.value=''
+        e.target.confirmPassword.value=''
+      } catch (error) {
+        const err = error as AxiosError
+        if (err.response!){
+          setError(err.response?.data)
+          setSuccess('')
+        } else{
+          setError('Server not found')
+          setSuccess('')
+        }
+      }
     }
   }
 
@@ -116,16 +120,15 @@ export default function RegisterPage() {
           </div>
 
           <div id="register-error" className="message-error">
-            {error}{' '}
+            {error}
           </div>
           <div id="register-success" className="message-success">
-            {success}{' '}
+            {success}
           </div>
 
           <div className="form-footer">
             <a id="form-link" href="/login">
-              {' '}
-              Already have an account? Login{' '}
+              Already have an account? Login
             </a>
             <button id="register-btn">Register</button>
           </div>

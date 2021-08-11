@@ -2,6 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  caret-color: white;
 }
 .body {
   display: flex;
@@ -11,15 +12,6 @@
 .body > * {
   display: inline-block;
 }
-
-/* @media (max-width: 700px){
-  .body .conversations-container{
-    display: none;
-  }
-  .main-nav-bar #add-new-container{
-    display: flex;
-  }
-} */
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -48,8 +40,8 @@ a {
   text-decoration: none;
 }
 button {
-  min-width: 120px;
-  padding: 12px;
+  min-width: 100px;
+  padding: 8px 12px;
   font-size: 18px;
   border-radius: 5px;
   color: white;

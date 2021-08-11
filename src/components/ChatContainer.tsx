@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
+import axios, { AxiosResponse, AxiosError } from 'axios'
+
 import { ConversationInterface, messageInterface } from '../interfaces/ConversationInterface'
 import { AuthUserContext, CurrentConversationContext } from '../context/AuthUserContext'
-import axios, { AxiosResponse } from 'axios'
-import '../css/ChatContainer.css'
 import { localApi } from '../utils/variables'
+import '../css/ChatContainer.css'
 
 export default function ChatContainer() {
   const authUserContext = useContext(AuthUserContext)
@@ -61,8 +62,12 @@ export default function ChatContainer() {
         setMessage({} as messageInterface)
         e.target.message.value = ''
       }
-    } catch (error) {
-      console.log(error)
+    } catch(error) {
+      const err = error as AxiosError
+      if (err.response){
+        return alert(err.response!.data)
+      }
+      console.log(error);
     }
   }
 

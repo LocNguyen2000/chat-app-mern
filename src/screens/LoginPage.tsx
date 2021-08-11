@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react'
 import '../css/LoginPage.css'
-import axios, { AxiosResponse, AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
 import { Redirect } from 'react-router-dom'
 import { localApi } from '../utils/variables'
 import * as utils from '../utils/storage'
 import { AuthUserContext } from '../context/AuthUserContext'
+import { AuthUserInterface } from '../interfaces/UserInterface'
 
 export default function LoginPage() {
   const context = useContext(AuthUserContext)
@@ -23,43 +24,44 @@ export default function LoginPage() {
     setPassword(e.target.value)
   }
 
-  const submitHandler = (e: any) => {
+  const submitHandler = async (e: any) => {
     e.preventDefault()
 
-    axios
-      .post(localApi + '/user/login', {
+    try {
+      const response = await axios.post(localApi + '/user/login', {
         email: email,
         password: password,
       })
-      .then((response: AxiosResponse) => {
-        // set success state
-        setSuccess('Login successfully')
-        setError('')
+      const data = await response.data as AuthUserInterface
 
-        const authUserData = {
-          id: response.data.id,
-          name: response.data.name,
-          email: response.data.email,
-          token: response.data.token,
-        }
+      setSuccess('Login successfully')
+      setError('')
 
-        // save token to local storage & save userData
-        utils.setAuthUser('user', response.data)
-        context.authUser = authUserData
+      const authUserData = {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        token: data.token
+      }
+      
+      // save token to local storage & save userData
+      utils.setAuthUser('user', response.data)
+      context.authUser = authUserData
 
-        setTimeout(() => {
-          setIsLogin(true)
-        }, 1000)
-      })
-      .catch((err: AxiosError) => {
-        if (err.response!) {
-          setError(err.response?.data)
-          setSuccess('')
-        } else {
-          setError('Server not found')
-          setSuccess('')
-        }
-      })
+      setTimeout(() => {
+        setIsLogin(true)
+      }, 1000)
+
+    } catch (error) {
+      const err = error as AxiosError
+      if (err.response) {
+        setError(err.response!.data)
+        setSuccess('')
+      } else {
+        setError('Server not found')
+        setSuccess('')
+      }
+    }
   }
   if (isLogin) {
     return <Redirect to="/" />

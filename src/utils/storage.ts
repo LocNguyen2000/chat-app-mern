@@ -6,7 +6,6 @@ export const verifyAuthUser = (token: string) => {
   try {
     if (token) {
       const payload = jwt.verify(token, secretKey) as JwtPayload
-      console.log('Payload:', payload)
       if (!payload) {
         return false
       }

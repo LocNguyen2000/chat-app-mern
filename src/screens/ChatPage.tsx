@@ -15,7 +15,6 @@ export default function ChatPage() {
 
   const [userConversations, setUserConversations] = useState<ConversationInterface[]>([])
   const [currentConversation, setCurrentConversation] = useState<ConversationInterface>({} as ConversationInterface)
-  // const [expired, setExpired] = useState<Boolean>(false)
 
   useEffect(() => {
     const getConversationLists = async (email: string) => {
@@ -34,7 +33,6 @@ export default function ChatPage() {
         console.log(error)
       }
     }
-    // setExpired(verifyAuthUser(authUser.token))
     getConversationLists(authUser.email)
   }, [authUser])
 
@@ -44,7 +42,6 @@ export default function ChatPage() {
 
   return (
     <>
-      {console.log(userConversations[0])}
       <ConversationsContext.Provider value={{ conversations: userConversations }}>
         <NavBar />
         <div className="body">

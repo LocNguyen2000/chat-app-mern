@@ -11,11 +11,10 @@
 }
 
 .main-nav-bar .nav-cards-container {
-  margin-right: 15px;
-  margin-left: 12px;
+  margin: 5px;
 }
 .main-nav-bar .nav-cards-container > * {
-  margin-right: 15px;
+  margin: 5px;
 }
 
 .main-nav-bar #add-new-container {

@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react'
-import axios, { AxiosResponse, AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
+
 import { AuthUserContext, ConversationsContext, CurrentConversationContext } from '../context/AuthUserContext'
-import '../css/ConversationsContainer.css'
 import { ConversationInterface } from '../interfaces/ConversationInterface'
 import { localApi } from '../utils/variables'
+import '../css/ConversationsContainer.css'
+
 
 export default function ConversationsContainer() {
   const authUserContext = useContext(AuthUserContext)
@@ -30,7 +32,6 @@ export default function ConversationsContainer() {
   const updateCurrentConversation = (cnv: ConversationInterface) => {
     if (cnv) {
       setCurrentChat(cnv)
-      console.log(currentChat)
     }
   }
 
@@ -50,28 +51,31 @@ export default function ConversationsContainer() {
     )
   }
 
-  const submitHandler = (e: any) => {
+  const submitHandler = async (e: any) => {
     e.preventDefault()
-    console.log(conversationTitle, ' - ', friendEmail)
 
-    axios
-      .post(localApi + '/chat/add', {
+    try {
+      const response =  await axios.post(localApi + '/chat/add', {
         title: conversationTitle,
         users: [userEmail, friendEmail],
       })
-      .then((res: AxiosResponse) => {
-        console.log(res.data)
-        setConversations([...conversations, res.data])
-        alert('Add new conversation')
-        setConversationTitle('')
-        setFriendEmail('')
-        e.target.title.value = ''
-        e.target.friendEmail.value = ''
-      })
-      .catch((err: AxiosError) => {
+      const data = await response.data as ConversationInterface
+      setConversations([...conversations, data])
+      alert('Add new conversation')
+      setConversationTitle('')
+      setFriendEmail('')
+      e.target.title.value = ''
+      e.target.friendEmail.value = ''
+    } catch (error) {
+      const err = error as AxiosError
+      if (err.response){
         alert(err.response!.data)
         console.log(err.response!.data)
-      })
+      }
+      else{
+        console.log(error.message);
+      }
+    }
   }
 
   return (
