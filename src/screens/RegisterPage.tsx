@@ -1,85 +1,89 @@
-import React, { useState } from "react";
-import "../css/RegisterPage.css";
-import axios, { AxiosResponse, AxiosError } from "axios";
-import { localApi } from "../utils/variables";
+import React, { useState } from 'react'
+import '../css/RegisterPage.css'
+import axios, { AxiosResponse, AxiosError } from 'axios'
+import { localApi } from '../utils/variables'
 
 export default function RegisterPage() {
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPass, setConfirmPass] = useState<string>("");
+  const [username, setUsername] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [confirmPass, setConfirmPass] = useState<string>('')
 
-  const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
+  const [error, setError] = useState<string>('')
+  const [success, setSuccess] = useState<string>('')
 
   const hasWhiteSpace = (e: string) => {
-    return e.indexOf(" ") >= 0;
-  };
+    return e.indexOf(' ') >= 0
+  }
   const registerFormValidation = () => {
-    let valid = false;
+    let valid = false
 
     if (username.length < 5) {
-      setError("Username must have at least 6 characters");
-      setSuccess("");
+      setError('Username must have at least 6 characters')
+      setSuccess('')
     } else if (hasWhiteSpace(password) || hasWhiteSpace(username)) {
-      setError("Username or password cannot have white space");
-      setSuccess("");
+      setError('Username or password cannot have white space')
+      setSuccess('')
     } else if (password.length < 5) {
-      setError("Password must have at least 6 characters");
-      setSuccess("");
+      setError('Password must have at least 6 characters')
+      setSuccess('')
     } else if (confirmPass !== password) {
-      setError("Password does not match");
-      setSuccess("");
+      setError('Password does not match')
+      setSuccess('')
     } else {
-      valid = true;
+      valid = true
     }
-    return valid;
-  };
+    return valid
+  }
 
   const updateUsername = (e: any) => {
-    e.preventDefault();
-    setUsername(e.target.value);
-  };
+    e.preventDefault()
+    setUsername(e.target.value)
+  }
   const updateEmailState = (e: any) => {
-    e.preventDefault();
-    setEmail(e.target.value);
-  };
+    e.preventDefault()
+    setEmail(e.target.value)
+  }
   const updatePassword = (e: any) => {
-    e.preventDefault();
-    setPassword(e.target.value);
-  };
+    e.preventDefault()
+    setPassword(e.target.value)
+  }
   const updateConfirmPass = (e: any) => {
-    e.preventDefault();
-    setConfirmPass(e.target.value);
-  };
+    e.preventDefault()
+    setConfirmPass(e.target.value)
+  }
 
-  const submitHandler = (e: any) => {
-    e.preventDefault();
+  const submitHandler = async (e: any) => {
+    e.preventDefault()
 
-    const isValid = registerFormValidation();
+    const isValid = registerFormValidation()
 
     if (isValid) {
-      axios
-        .post( localApi + "/user/register", {
+      try {
+        const response: AxiosResponse = await axios.post(localApi + '/user/register', {
           name: username,
           email: email,
           password: password,
         })
-        .then((res: AxiosResponse) => {          
-          setSuccess(res.data);
-          setError("");
-        })
-        .catch((err: AxiosError) => {
-          if (err.response!) {            
-            setError(err.response?.data);
-            setSuccess("");
-          } else {
-            setError("Server not found");
-            setSuccess("");
-          }
-        });
+        const data = await response.data
+        setSuccess(data)
+        setError('')
+        e.target.username.value=''
+        e.target.email.value=''
+        e.target.password.value=''
+        e.target.confirmPassword.value=''
+      } catch (error) {
+        const err = error as AxiosError
+        if (err.response!){
+          setError(err.response?.data)
+          setSuccess('')
+        } else{
+          setError('Server not found')
+          setSuccess('')
+        }
+      }
     }
-  };
+  }
 
   return (
     <div className="register-container">
@@ -94,33 +98,15 @@ export default function RegisterPage() {
         </div>
         <form id="form-register" onSubmit={submitHandler}>
           <div className="input-wrapper">
-            <input
-              type="text"
-              name="username"
-              placeholder=" Username"
-              onChange={updateUsername}
-              required
-            />
+            <input type="text" name="username" placeholder=" Username" onChange={updateUsername} required />
           </div>
 
           <div className="input-wrapper">
-            <input
-              type="email"
-              name="email"
-              placeholder=" Email"
-              onChange={updateEmailState}
-              required
-            />
+            <input type="email" name="email" placeholder=" Email" onChange={updateEmailState} required />
           </div>
 
           <div className="input-wrapper">
-            <input
-              type="password"
-              name="password"
-              placeholder=" Password"
-              onChange={updatePassword}
-              required
-            />
+            <input type="password" name="password" placeholder=" Password" onChange={updatePassword} required />
           </div>
 
           <div className="input-wrapper">
@@ -134,21 +120,20 @@ export default function RegisterPage() {
           </div>
 
           <div id="register-error" className="message-error">
-            {error}{" "}
+            {error}
           </div>
           <div id="register-success" className="message-success">
-            {success}{" "}
+            {success}
           </div>
 
           <div className="form-footer">
             <a id="form-link" href="/login">
-              {" "}
-              Already have an account? Login{" "}
+              Already have an account? Login
             </a>
             <button id="register-btn">Register</button>
           </div>
         </form>
       </div>
     </div>
-  );
+  )
 }

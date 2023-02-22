@@ -1,59 +1,59 @@
-.current-conversation{
-    width: 100%;
-    height: 100%;
-    background: url('../img/background-black.png');
+.current-conversation {
+  width: 100%;
+  height: 100%;
+  background: url('../img/background-black.png');
 }
-.current-conversation .chat-header{
-    padding: 5px 10px;
+.current-conversation .chat-header {
+  padding: 5px 10px;
 }
-.current-conversation .chat-header *{
-    color: white;
-}
-
-.chat-messages{
-    padding: 10px;
-    width: 100%;
-    height: (100% - 40px);
-    word-break: break-word;
-}
-.chat-message{
-    margin-bottom: 10px;
+.current-conversation .chat-header * {
+  color: white;
 }
 
-.chat-message span{
-    display: inline-block;
-    min-width: 150px;
-    max-width: 50%;
-    min-height: 40px;
-    padding: 10px; 
-    line-height: 20px;
-    font-size: 18px;
-    background:#3E4042;
-    color: #ffffff;
-    border-radius: 5px;
+.chat-messages {
+  padding: 10px;
+  width: 100%;
+  height: (100% - 40px);
+  word-break: break-word;
+}
+.chat-message {
+  margin-bottom: 10px;
 }
 
-.chat-message.your{
-    text-align: right;
+.chat-message span {
+  display: inline-block;
+  min-width: 150px;
+  max-width: 50%;
+  min-height: 40px;
+  padding: 10px;
+  line-height: 20px;
+  font-size: 18px;
+  background: #3e4042;
+  color: #ffffff;
+  border-radius: 5px;
 }
 
-.chat-message.your span{
-    background: #fbaa33;
+.chat-message.your {
+  text-align: right;
 }
 
-.chat-form{
-    width: 100%;
-    height: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center; 
-    height: fit-content;
-    padding: 10px;
+.chat-message.your span {
+  background: #fbaa33;
+}
+
+.chat-form {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: fit-content;
+  padding: 10px;
 }
 
 .chat-form .input-wrapper {
-    border-radius: 4px;
-    width: 100%;
-    margin: 5px;
-    box-shadow: 0 0 1px #333;
+  border-radius: 4px;
+  width: 100%;
+  margin: 5px;
+  box-shadow: 0 0 1px #333;
 }

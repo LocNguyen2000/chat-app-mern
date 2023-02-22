@@ -2,7 +2,26 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  caret-color: white;
 }
+
+@media screen and (max-width: 500px) {
+  h2{
+    font-size: 20px;
+  }
+  button{
+    font-size: 10px! important;
+    padding: 5px! important;
+    min-width: 80px! important;
+  }
+  input{
+    font-size: 14px! important;
+  }
+  span{
+    font-size: 14px! important;
+  }
+}
+
 .body {
   display: flex;
   height: calc(100vh - 60px);
@@ -12,19 +31,10 @@
   display: inline-block;
 }
 
-/* @media (max-width: 700px){
-  .body .conversations-container{
-    display: none;
-  }
-  .main-nav-bar #add-new-container{
-    display: flex;
-  }
-} */
-
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
   transition: background-color 5000s;
   -webkit-text-fill-color: #fff !important;
 }
@@ -48,8 +58,8 @@ a {
   text-decoration: none;
 }
 button {
-  min-width: 120px;
-  padding: 12px;
+  min-width: 100px;
+  padding: 8px 12px;
   font-size: 18px;
   border-radius: 5px;
   color: white;
@@ -69,15 +79,7 @@ button:hover {
 button:focus {
   outline: none;
 }
-/* 
 .form-container {
-  border-radius: 3px;
-  height: 60%;
-  width: 500px;
-  background: #1f1f1f;
-  padding: 70px 50px;
-} */
-.form-container{
   background: black;
   opacity: 0.9;
   padding: 60px 60px;
@@ -97,7 +99,6 @@ button:focus {
   flex-direction: column;
   font-size: 20px;
 }
-.form-container .form-footer > *{
+.form-container .form-footer > * {
   margin-bottom: 10px;
 }
-

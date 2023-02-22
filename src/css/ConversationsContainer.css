@@ -1,48 +1,48 @@
-.conversations-container{
+.conversations-container {
   width: 25%;
+  min-width: 150px;
   height: 100%;
-  padding-left: 15px;
+  padding-left: 12px;
   box-shadow: 4px 0 5px -5px #333;
   background: #1f1f1f;
   word-wrap: break-word;
 }
-.conversations-container *{
+.conversations-container * {
   margin-bottom: 10px;
+  margin-right: 5px;
 }
 
-.conversations-container .header{
+.conversations-container .header {
   font-weight: bold;
-  padding: 10px 10px;
+  padding: 10px 5px;
   color: #fbaa33;
 }
 
 .conversations-container .conversations-list ul {
   list-style: none;
-  overflow-y:scroll;
+  overflow-y: scroll;
 }
-.conversations-container .conversations-list ul li{
-  border:none;
+.conversations-container .conversations-list ul li {
+  border: none;
   border-bottom: 1px solid white;
   font-size: 15px;
   padding-bottom: 3px;
   margin-bottom: 10px;
   color: rgba(255, 255, 255, 0.555);
 }
-.conversations-container .conversations-list ul li:hover{
-  background-color:#5e616a;
+.conversations-container .conversations-list ul li:hover {
+  background-color: #5e616a;
 }
 
-.conversations-container .conversations-list ul li h2{
-  font-size:16px;
-  color:#fff;
-  font-weight:normal;
-  margin-bottom:5px;
+.conversations-container .conversations-list ul li h2 {
+  font-size: 16px;
+  color: #fff;
+  font-weight: normal;
+  margin-bottom: 5px;
 }
 
-li h3{
-  font-size:14px;
-  color:#7e818a;
-  font-weight:normal;
+li h3 {
+  font-size: 14px;
+  color: #7e818a;
+  font-weight: normal;
 }
-
-

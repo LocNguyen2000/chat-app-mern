@@ -1,68 +1,70 @@
-import React, { useState, useContext } from "react";
-import "../css/LoginPage.css";
-import axios, { AxiosResponse, AxiosError } from "axios";
-import { Redirect } from "react-router-dom";
-import { localApi } from "../utils/variables";
-import * as utils from "../utils/storage";
-import { AuthUserContext } from "../context/AuthUserContext";
+import React, { useState, useContext } from 'react'
+import '../css/LoginPage.css'
+import axios, { AxiosError } from 'axios'
+import { Redirect } from 'react-router-dom'
+import { localApi } from '../utils/variables'
+import * as utils from '../utils/storage'
+import { AuthUserContext } from '../context/AuthUserContext'
+import { AuthUserInterface } from '../interfaces/UserInterface'
 
 export default function LoginPage() {
-  const context = useContext(AuthUserContext);
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
-  const [error, setError] = useState<string>();
-  const [success, setSuccess] = useState<string>();
-  const [isLogin, setIsLogin] = useState<Boolean>(false);
+  const context = useContext(AuthUserContext)
+  const [email, setEmail] = useState<string>()
+  const [password, setPassword] = useState<string>()
+  const [error, setError] = useState<string>()
+  const [success, setSuccess] = useState<string>()
+  const [isLogin, setIsLogin] = useState<boolean>(false)
 
   const updateEmailState = (e: any) => {
-    e.preventDefault();
-    setEmail(e.target.value);
-  };
+    e.preventDefault()
+    setEmail(e.target.value)
+  }
   const updatePassword = (e: any) => {
-    e.preventDefault();
-    setPassword(e.target.value);
-  };
+    e.preventDefault()
+    setPassword(e.target.value)
+  }
 
-  const submitHandler = (e: any) => {
-    e.preventDefault();
+  const submitHandler = async (e: any) => {
+    e.preventDefault()
 
-    axios
-      .post(localApi + "/user/login", {
+    try {
+      const response = await axios.post(localApi + '/user/login', {
         email: email,
         password: password,
       })
-      .then((response: AxiosResponse) => {
-        // set success state
-        setSuccess("Login successfully");
-        setError("");
+      const data = await response.data as AuthUserInterface
 
-        const authUserData = {
-          id: response.data.id,
-          name: response.data.name,
-          email: response.data.email,
-          token: response.data.token,
-        };
+      setSuccess('Login successfully')
+      setError('')
 
-        // save token to local storage & save userData
-        utils.setAuthUser("user", response.data);
-        context.authUser = authUserData;
+      const authUserData = {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        token: data.token
+      }
+      
+      // save token to local storage & save userData
+      utils.setAuthUser('user', response.data)
+      context.authUser = authUserData
 
-        setTimeout(() => {
-          setIsLogin(true);
-        }, 1000);
-      })
-      .catch((err: AxiosError) => {
-        if (err.response!) {
-          setError(err.response?.data);
-          setSuccess("");
-        } else {
-          setError("Server not found");
-          setSuccess("");
-        }
-      });
-  };
+      setTimeout(() => {
+        setIsLogin(true)
+      }, 1000)
+
+    } catch (error) {
+      const err = error as AxiosError
+      if (err.response) {
+        setError(err.response!.data)
+        setSuccess('')
+      } else {
+        setError('Server not found')
+        setSuccess('')
+      }
+    }
+  }
   if (isLogin) {
-    return <Redirect to="/" />;
+    return <Redirect to="/" />
   }
 
   return (
@@ -79,23 +81,11 @@ export default function LoginPage() {
 
         <form id="form-log-in" onSubmit={submitHandler}>
           <div className="input-wrapper">
-            <input
-              type="email"
-              name="email"
-              placeholder=" Email"
-              onChange={updateEmailState}
-              required
-            />
+            <input type="email" name="email" placeholder=" Email" onChange={updateEmailState} required />
           </div>
 
           <div className="input-wrapper">
-            <input
-              type="password"
-              name="password"
-              placeholder=" Password"
-              onChange={updatePassword}
-              required
-            />
+            <input type="password" name="password" placeholder=" Password" onChange={updatePassword} required />
           </div>
 
           <div className="message message-error">{error}</div>
@@ -112,5 +102,5 @@ export default function LoginPage() {
         </form>
       </div>
     </div>
-  );
+  )
 }

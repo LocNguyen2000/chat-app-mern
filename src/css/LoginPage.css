@@ -1,28 +1,26 @@
-.log-in-container{
-    height: 100vh;
-    width: 100%;
-    background: rgba(0, 0, 0, .35) url("../img/login-background.jpeg") no-repeat center center;
-    background-blend-mode: darken;
-    background-size: cover; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.log-in-container {
+  height: 100vh;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.35) url('../img/login-background.jpeg') no-repeat center center;
+  background-blend-mode: darken;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
 
 .form-container #form-log-in > * {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
-.message-error{
-    font-size: 13px;
-    color: red;
-    padding-top :3px
+.message-error {
+  font-size: 13px;
+  color: red;
+  padding-top: 3px;
 }
 
-.message-success{
-    font-size: 13px;
-    color: green;
-    padding-top: 3px;
+.message-success {
+  font-size: 13px;
+  color: green;
+  padding-top: 3px;
 }
-

@@ -1,7 +1,7 @@
-.main-nav-bar{
+.main-nav-bar {
   height: 60px;
-  width: 100%;
-  display: flex; 
+  width: 100vw;
+  display: flex;
   justify-content: flex-end;
   background: #282c34;
   color: #ffffff;
@@ -10,27 +10,26 @@
   box-shadow: 0 5px 5px -5px #333;
 }
 
-.main-nav-bar .nav-cards-container{
-  margin-right: 15px;
-  margin-left: 12px;
+.main-nav-bar .nav-cards-container {
+  margin: 5px;
 }
-.main-nav-bar .nav-cards-container>*{
-  margin-right: 15px;
+.main-nav-bar .nav-cards-container > * {
+  margin: 5px;
 }
 
-.main-nav-bar #add-new-container{
+.main-nav-bar #add-new-container {
   display: none;
 }
 
-.main-nav-bar #community:hover{
+.main-nav-bar #community:hover {
   cursor: pointer;
 }
 
-.main-nav-bar #sign-out-btn{
+.main-nav-bar #sign-out-btn {
   border: none;
 }
 
-.main-nav-bar #sign-out-btn:hover{
+.main-nav-bar #sign-out-btn:hover {
   min-width: 140px;
   transition: 0.3s ease;
 }
